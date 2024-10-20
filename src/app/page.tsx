@@ -1,25 +1,18 @@
 import { db } from "~/server/db";
 
-const mockUrls = [
-  "https://images.unsplash.com/photo-1728877988622-acdfc6ad0c59?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1724311564236-e14a0fd831ef?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://plus.unsplash.com/premium_photo-1728755158799-81554467446e?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-  "https://images.unsplash.com/photo-1728410594823-5074a3ff0b32?fm=jpg&q=60&w=3000&ixlib=rb-4.0.3&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D",
-];
-
-const mockImages = mockUrls.map((url, index) => ({ url, id: index }));
+export const dynamic = "force-dynamic";
 
 export default async function HomePage() {
-  const posts = await db.query.posts.findMany();
+  const images = await db.query.iamges.findMany({
+    orderBy: (model, { desc }) => desc(model.name),
+  });
 
   return (
     <main className="flex flex-wrap gap-10">
-      {posts.map((post) => (
-        <div key={post.id}>{post.name}</div>
-      ))}
-      {mockImages.map((img) => (
+      {images.map((img) => (
         <div key={img.id}>
-          <img src={img.url} alt="Nature" className="w-48" />
+          <img src={img.url} alt={img.name} className="w-48" />
+          <div>{img.name}</div>
         </div>
       ))}
     </main>
