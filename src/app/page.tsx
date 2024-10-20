@@ -1,20 +1,37 @@
-import { db } from "~/server/db";
+import { SignedIn, SignedOut } from "@clerk/nextjs";
+import Image from "next/image";
+import { getUserImages } from "~/server/queries";
 
 export const dynamic = "force-dynamic";
 
-export default async function HomePage() {
-  const images = await db.query.iamges.findMany({
-    orderBy: (model, { desc }) => desc(model.name),
-  });
+async function Images() {
+  const images = await getUserImages();
 
+  return images.map((img) => (
+    <div key={img.id}>
+      // Image tag comes from Next.js and is used to optimize images
+      <Image
+        src={img.url}
+        width={192}
+        height={192}
+        alt={img.name}
+        className="w-48"
+      />
+      <div>{img.name}</div>
+    </div>
+  ));
+}
+
+export default async function HomePage() {
   return (
     <main className="flex flex-wrap gap-10">
-      {images.map((img) => (
-        <div key={img.id}>
-          <img src={img.url} alt={img.name} className="w-48" />
-          <div>{img.name}</div>
-        </div>
-      ))}
+      <SignedOut>
+        <div className="w-full text-center text-2xl">Please sign in above</div>
+      </SignedOut>
+
+      <SignedIn>
+        <Images />
+      </SignedIn>
     </main>
   );
 }
