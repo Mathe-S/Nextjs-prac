@@ -31,9 +31,11 @@ export default function RootLayout(props: {
         routerConfig={extractRouterConfig(ourFileRouter)}
       />
       <html lang="en">
-        <body>
-          <TopNav />
-          {props.children}
+        <body className={`font-sans`}>
+          <div className="grid h-screen grid-rows-[auto,1fr]">
+            <TopNav />
+            <main className="overflow-y-scroll">{props.children}</main>
+          </div>
           {props.modal}
           <div id="modal-root" />
         </body>

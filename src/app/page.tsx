@@ -9,9 +9,9 @@ async function Images() {
   const images = await getUserImages();
 
   return images.map((img) => (
-    <div key={img.id}>
+    <div key={img.id} className="flex flex-wrap justify-center gap-4">
       <Link href={`/img/${img.id}`}>
-        // Image tag comes from Next.js and is used to optimize images
+        {/*  Image tag comes from Next.js and is used to optimize images */}
         <Image
           src={img.url}
           width={192}
