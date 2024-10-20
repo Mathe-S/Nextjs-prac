@@ -15,10 +15,10 @@ export const metadata: Metadata = {
   icons: [{ rel: "icon", url: "/favicon.ico" }],
 };
 
-export default function RootLayout({
-  children,
-  modal,
-}: Readonly<{ children: React.ReactNode; modal: React.ReactNode }>) {
+export default function RootLayout(props: {
+  children: React.ReactNode;
+  modal: React.ReactNode;
+}) {
   return (
     <ClerkProvider>
       <NextSSRPlugin
@@ -33,9 +33,9 @@ export default function RootLayout({
       <html lang="en">
         <body>
           <TopNav />
-          {children}
-          {modal}
-          <div id="modal-root"></div>
+          {props.children}
+          {props.modal}
+          <div id="modal-root" />
         </body>
       </html>
     </ClerkProvider>
